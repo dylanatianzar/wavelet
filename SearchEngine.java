@@ -6,22 +6,22 @@ class Handler implements URLHandler {
     ArrayList<String> searchList = new ArrayList<String>();
     
     public String handleRequest(URI url) {
+        String[] parameters = url.getQuery().split("=");
         if (url.getPath().equals("/")) {
-            if (searchList.get(i) == null) {
-                return System.out.println("Nothing is in the list.");
+            if (searchList.size() == 0) {
+                return "";
             }
-            for (int i = 0; i < searchList.length(); i++) {
+            for (int i = 0; i < searchList.size(); i++) {
                 System.out.println(searchList.get(i));
             }
             return "";
-        } else if (url.getPath().getQuery("s")) {
-            String[] parameters = url.getQuery().split("=");
-            if (url.getPath().equals("/add")) {
-                searchList.append(parameters[1]);
+        } else if (parameters[0].equals("s")) {
+            if (url.getPath().contains("/add")) {
+                searchList.add(parameters[1]);
                 return String.format("%s has been added to the list! ", parameters[1]);
             }
-            else if (url.getPath.equals("/search")){
-                for (int i = 0; i < searchList.length(); i++) {
+            else if (url.getPath().contains("/search")){
+                for (int i = 0; i < searchList.size(); i++) {
                     if (searchList.get(i).contains(parameters[1])) {
                         System.out.println(searchList.get(i));
                     }
