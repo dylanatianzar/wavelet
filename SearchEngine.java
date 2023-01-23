@@ -6,30 +6,36 @@ class Handler implements URLHandler {
     ArrayList<String> searchList = new ArrayList<String>();
     
     public String handleRequest(URI url) {
-        String[] parameters = url.getQuery().split("=");
+        String[] parameters;
         if (url.getPath().equals("/")) {
             if (searchList.size() == 0) {
-                return "";
+                return "No elements have been added to the list.";
             }
-            for (int i = 0; i < searchList.size(); i++) {
-                System.out.println(searchList.get(i));
+            String list = "";
+            for (int i = 0; i < searchList.size()-1; i++) {
+                list += searchList.get(i) + ",";
             }
-            return "";
-        } else if (parameters[0].equals("s")) {
-            if (url.getPath().contains("/add")) {
+            list+=searchList.get(searchList.size()-1);
+            return list;
+        } else if (url.getPath().contains("/add")) {
+            parameters = url.getQuery().split("=");
+            if (parameters[0].equals("s")) {
                 searchList.add(parameters[1]);
                 return String.format("%s has been added to the list! ", parameters[1]);
             }
-            else if (url.getPath().contains("/search")){
-                for (int i = 0; i < searchList.size(); i++) {
+        } else if (url.getPath().contains("/search")){
+            parameters = url.getQuery().split("=");
+            if (parameters[0].equals("s")) {
+                String list = "";
+                for (int i = 0; i < searchList.size()-1; i++) {
                     if (searchList.get(i).contains(parameters[1])) {
-                        System.out.println(searchList.get(i));
+                        list += searchList.get(i) + ",";
                     }
-                    return "";
+                    list+=searchList.get(searchList.size()-1);
+                    return list;
                 }
             }
         }
-        
         return "404 Not Found!";
     }
 }
