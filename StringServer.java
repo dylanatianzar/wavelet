@@ -7,7 +7,7 @@ class Handler implements URLHandler{
 
     public String handleRequest(URI url){
         if (url.getQuery() == null) {
-            return "Add a message to string with /add-message";
+            return "Add a message to string with /add-message path";
         }
         String[] parameters = url.getQuery().split("=");
         if (url.getPath().contains("/add-message") && 
